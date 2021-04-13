@@ -5,11 +5,6 @@ import Student from "./Student";
 const StudentList = () => {
     const [students, setStudents] = useState([]);
 
-    const addStudent = (newStudent) => {
-        console.log(newStudent);
-        // setStudents((prevStudents) => [...prevStudents, newStudent]);
-    };
-
     return (
         <div>
             <div>
@@ -20,7 +15,7 @@ const StudentList = () => {
                 ))}
             </div>
 
-            <StudentForm addStudent={addStudent} />
+            <StudentForm setStudents={setStudents} />
         </div>
     );
 };
