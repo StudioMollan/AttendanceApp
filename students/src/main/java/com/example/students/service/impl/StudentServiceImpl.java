@@ -8,13 +8,15 @@ import com.example.students.shared.Util;
 import com.example.students.shared.dto.StudentDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService {
-
     private final StudentRepository studentRepository;
     private Util util;
 
@@ -25,6 +27,18 @@ public class StudentServiceImpl implements StudentService {
 
     public String getStudent(){
         return "getStudent";
+    }
+
+    @Override
+    public List<StudentDto> getStudents() {
+        Iterable<StudentEntity> studentEntities = studentRepository.findAll();
+        ArrayList<StudentDto> studentDtos = new ArrayList<>();
+        for (StudentEntity studentEntity : studentEntities) {
+            StudentDto studentDto = new StudentDto();
+            BeanUtils.copyProperties(studentEntity, studentDto);
+            studentDtos.add(studentDto);
+        }
+        return studentDtos;
     }
 
     public StudentDto createStudent(StudentDto studentDetailsIn){
