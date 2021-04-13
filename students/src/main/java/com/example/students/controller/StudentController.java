@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("students") // localhost:8080/students
 public class StudentController {
@@ -18,8 +21,20 @@ public class StudentController {
 
     //CRUD
     @GetMapping // READ
-    public String getStudent(){
-        return studentService.getStudent();
+    public String getStudent(){ return studentService.getStudent(); }
+
+
+
+    @GetMapping // READ ALL
+    public List<StudentResponseModel> getStudents() {
+        List<StudentDto> studentDtos = studentService.getStudents();
+        ArrayList<StudentResponseModel> responseList = new ArrayList<>();
+        for (StudentDto studentDto : studentDtos) {
+            StudentResponseModel responseModel = new StudentResponseModel();
+            BeanUtils.copyProperties(studentDto, responseModel);
+            responseList.add(responseModel);
+        }
+        return responseList;
     }
 
     @PostMapping // CREATE
