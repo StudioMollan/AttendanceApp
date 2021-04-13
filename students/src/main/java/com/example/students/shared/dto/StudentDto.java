@@ -1,13 +1,20 @@
 package com.example.students.shared.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 public class StudentDto implements Serializable {
 
     private long id;
-    private String studentId, firstName, lastName, encryptedPassword;
+    @JsonProperty("student_id")
+    private String studentId;
+    @JsonProperty("first_name")
+    private String firstName;
+    @JsonProperty("last_name")
+    private String lastName;
     private int age;
-    private boolean present = false;
+    private boolean present;
 
     public long getId() {
         return id;
@@ -55,13 +62,5 @@ public class StudentDto implements Serializable {
 
     public void setPresent(boolean present) {
         this.present = present;
-    }
-
-    public String getEncryptedPassword() {
-        return encryptedPassword;
-    }
-
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
     }
 }

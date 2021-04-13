@@ -1,10 +1,15 @@
 package com.example.students.model.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class StudentDetailsRequestModel {
 
-    private String firstName, lastName;  // student_id
+    @JsonProperty("first_name")
+    private String firstName;
+    @JsonProperty("last_name")
+    private String lastName;
     private int age;
-    private boolean present = false;
+    private boolean present;
 
     public String getFirstName() {
         return firstName;
@@ -37,17 +42,4 @@ public class StudentDetailsRequestModel {
     public void setPresent(boolean present) {
         this.present = present;
     }
-
-
-            /*id: (ett numeriskt värde)
-
-            - student_id: (en text/sträng)
-
-            - name: (en text/sträng)
-
-            - last_name: (en text/sträng)
-
-            - age: (ett numeriskt värde)
-
-            - present: (en boolean)*/
 }

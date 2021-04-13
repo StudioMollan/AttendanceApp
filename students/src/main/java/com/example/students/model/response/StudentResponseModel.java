@@ -1,10 +1,17 @@
 package com.example.students.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class StudentResponseModel {
 
-    private String studentId, firstName, lastName;
+    @JsonProperty("student_id")
+    private String studentId;
+    @JsonProperty("first_name")
+    private String firstName;
+    @JsonProperty("last_name")
+    private String lastName;
     private int age;
-    private boolean present = false;
+    private boolean present;
 
     public String getStudentId() {
         return studentId;
