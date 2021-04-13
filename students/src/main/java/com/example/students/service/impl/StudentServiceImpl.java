@@ -27,6 +27,16 @@ public class StudentServiceImpl implements StudentService {
         return "getStudent";
     }
 
+
+    public Optional<StudentDto> getStudentByStudentId(String studentId) {
+        Optional<StudentEntity> studentIdEntity = studentRepository.findByStudentId(studentId);
+        return studentIdEntity.map(studentEntity -> {
+            StudentDto studentDto = new StudentDto();
+            BeanUtils.copyProperties(studentEntity, studentDto);
+            return studentDto;
+        });
+    }
+
     public StudentDto createStudent(StudentDto studentDetailsIn){
 
         Optional<StudentEntity> studentDetails = studentRepository.findByStudentId(studentDetailsIn.getStudentId());
