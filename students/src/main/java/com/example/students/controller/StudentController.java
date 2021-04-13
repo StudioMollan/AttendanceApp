@@ -30,7 +30,7 @@ public class StudentController {
 
     @GetMapping("/{studentId}") // READ
     @ResponseStatus(value = HttpStatus.OK)
-    public StudentResponseModel getStudent(@PathVariable String studentId){
+    public StudentResponseModel getStudent(@PathVariable String studentId) {
         StudentResponseModel responseModel = new StudentResponseModel();
         Optional<StudentDto> optionalstudentDto = studentService.getStudentByStudentId(studentId);
         if (optionalstudentDto.isPresent()) {
@@ -39,6 +39,7 @@ public class StudentController {
             return responseModel;
         }
         throw new NotFoundException("No user with id " + studentId);
+    }
 
     @GetMapping // READ
     public String getStudent(){ return studentService.getStudent(); }

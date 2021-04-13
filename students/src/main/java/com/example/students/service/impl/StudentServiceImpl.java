@@ -38,6 +38,7 @@ public class StudentServiceImpl implements StudentService {
             BeanUtils.copyProperties(studentEntity, studentDto);
             return studentDto;
         });
+    }
 
     @Override
     public List<StudentDto> getStudents() {
