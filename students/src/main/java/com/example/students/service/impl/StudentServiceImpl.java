@@ -29,6 +29,16 @@ public class StudentServiceImpl implements StudentService {
         return "getStudent";
     }
 
+
+
+    public Optional<StudentDto> getStudentByStudentId(String studentId) {
+        Optional<StudentEntity> studentIdEntity = studentRepository.findByStudentId(studentId);
+        return studentIdEntity.map(studentEntity -> {
+            StudentDto studentDto = new StudentDto();
+            BeanUtils.copyProperties(studentEntity, studentDto);
+            return studentDto;
+        });
+
     @Override
     public List<StudentDto> getStudents() {
         Iterable<StudentEntity> studentEntities = studentRepository.findAll();
@@ -39,6 +49,7 @@ public class StudentServiceImpl implements StudentService {
             studentDtos.add(studentDto);
         }
         return studentDtos;
+
     }
 
     public StudentDto createStudent(StudentDto studentDetailsIn){
