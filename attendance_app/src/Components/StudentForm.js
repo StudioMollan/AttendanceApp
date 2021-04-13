@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const StudentForm = (props) => {
     const [values, setValues] = useState({
-        name: "",
+        firstName: "",
         lastName: "",
         age: 0,
         present: false,
@@ -22,7 +22,30 @@ const StudentForm = (props) => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        props.addStudent(values);
+
+        const fetchStudents = async () => {
+            const resp = await fetch("http://localhost:8080/students/", {
+                method: "POST",
+                mode: "cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    first_name: values.firstName,
+                    last_name: values.lastName,
+                    age: values.age,
+                    present: values.present,
+                }),
+            });
+
+            if (resp.status !== 201) {
+                alert("Invalid information, enter all student details!");
+            }
+
+            const newStudent = await resp.json();
+            props.setStudents((prevStudents) => [...prevStudents, newStudent]);
+            setValues([]); // Reset form for new input
+        };
+
+        fetchStudents();
     };
 
     return (
@@ -31,17 +54,17 @@ const StudentForm = (props) => {
                 <div className="form-style-div">
                     <h2 className="student-form-title">New Student</h2>
                     <form onSubmit={submitHandler}>
-                        <label htmlFor="name">
-                            <span>Name</span>
+                        <label htmlFor="firstName">
+                            <span>First Name</span>
                             <input
                                 type="text"
-                                id="name"
+                                id="firstName"
                                 pattern=".{2,}"
                                 required
                                 className="input-field"
-                                name="name"
-                                value={values.name}
-                                onChange={(e) => handleChange("name", e)}
+                                name="firstName"
+                                value={values.firstName || ""}
+                                onChange={(e) => handleChange("firstName", e)}
                             />
                         </label>
                         <label htmlFor="lastName">
@@ -53,7 +76,7 @@ const StudentForm = (props) => {
                                 required
                                 className="input-field"
                                 name="lastName"
-                                value={values.lastName}
+                                value={values.lastName || ""}
                                 onChange={(e) => handleChange("lastName", e)}
                             />
                         </label>
@@ -63,9 +86,10 @@ const StudentForm = (props) => {
                                 type="number"
                                 id="age"
                                 min="1"
+                                required
                                 className="input-field"
                                 name="age"
-                                value={values.age}
+                                value={values.age || ""}
                                 placeholder="Enter your age"
                                 onChange={(e) => handleChange("age", e)}
                             />
