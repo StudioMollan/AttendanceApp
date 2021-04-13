@@ -13,25 +13,20 @@ public class StudentEntity implements Serializable {
     @GeneratedValue
     private long id;
 
-    @Column(length = 50, unique = true)
+    @Column(length = 50, unique = true, nullable = false)
     private String studentId;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String firstName;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String lastName;
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private int age;
 
-    @Column
-    private String encryptedPassword;
-
-    @Column
-    private boolean present = false;
-
-
+    @Column(nullable = false)
+    private boolean present;
 
     public long getId() {
         return id;
@@ -79,13 +74,5 @@ public class StudentEntity implements Serializable {
 
     public void setPresent(boolean present) {
         this.present = present;
-    }
-
-    public String getEncryptedPassword() {
-        return encryptedPassword;
-    }
-
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
     }
 }

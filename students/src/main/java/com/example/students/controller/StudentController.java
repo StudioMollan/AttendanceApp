@@ -6,6 +6,7 @@ import com.example.students.service.StudentService;
 import com.example.students.shared.dto.StudentDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,12 +17,13 @@ public class StudentController {
     StudentService studentService;
 
     //CRUD
-    @GetMapping // CREATE
+    @GetMapping // READ
     public String getStudent(){
         return studentService.getStudent();
     }
 
-    @PostMapping // READ
+    @PostMapping // CREATE
+    @ResponseStatus(value = HttpStatus.CREATED)
     public StudentResponseModel createStudent(@RequestBody StudentDetailsRequestModel studentDetailsModel){
 
         StudentDto studentDtoIn = new StudentDto();
