@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import StudentForm from "./StudentForm";
+import StudentView from "./StudentView";
 
 const Student = (props) => {
     const students = props.studentData;
@@ -8,14 +9,14 @@ const Student = (props) => {
             {students.map((student, index) => {
                 return (
                     <li key={index} className="student-li">
-                        <a
-                            href="#"
+                        <button
+                            type="button"
                             onClick={props.linkHandler}
-                            className="student-name"
+                            className="link-button student-name"
                             style={{ fontWeight: "bold" }}
                         >
                             {student.first_name} {student.last_name}
-                        </a>
+                        </button>
                         <label htmlFor="present">
                             <input
                                 type="checkbox"
@@ -42,6 +43,7 @@ const Student = (props) => {
 
 const StudentList = () => {
     const [students, setStudents] = useState([]);
+    const [view, setView] = useState("");
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -54,8 +56,7 @@ const StudentList = () => {
     }, []);
 
     const linkHandler = () => {
-        // Go to student edit form
-        console.log("Go to student edit form");
+        setView("studentview");
     };
 
     const presentHandler = () => {
@@ -68,17 +69,26 @@ const StudentList = () => {
         console.log("Delete");
     };
 
-    return (
-        <div>
-            <Student
-                studentData={students}
-                linkHandler={linkHandler}
-                presentHandler={presentHandler}
-                removeHandler={removeHandler}
-            />
-            <StudentForm setStudents={setStudents} />
-        </div>
-    );
+    switch (view) {
+        case "studentview":
+            return (
+                <>
+                    <StudentView setView={setView} />
+                </>
+            );
+        default:
+            return (
+                <div>
+                    <Student
+                        studentData={students}
+                        linkHandler={linkHandler}
+                        presentHandler={presentHandler}
+                        removeHandler={removeHandler}
+                    />
+                    <StudentForm setStudents={setStudents} />
+                </div>
+            );
+    }
 };
 
 export default StudentList;

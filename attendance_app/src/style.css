@@ -48,6 +48,16 @@ ul {
     box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
 }
 
+.link-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    /*text-decoration: underline;*/
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
 /*----------------------------------------------------------------------------
 		Student Form
 ----------------------------------------------------------------------------- */
@@ -177,4 +187,41 @@ li {
     padding: 3px 5px 2px 5px;
     margin-left: 20px;
     border-radius: 3px;
+}
+
+/*----------------------------------------------------------------------------
+		Student Form
+----------------------------------------------------------------------------- */
+.deleteBtn,
+.cancelBtn {
+    margin-top: 5px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 22px;
+    background: #ff0000;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    opacity: 0.6;
+    /* pointer-events: none; */
+    transition: all 0.3s ease;
+}
+
+.deleteBtn:hover,
+.deleteBtn:hover {
+    background: #ff8c00;
+    color: #fff;
+}
+
+.cancelBtn {
+    background: #008cba;
+    margin-left: 1em !important;
+}
+
+.edit-input {
+    margin-left: 3em !important;
 }
