@@ -25,12 +25,6 @@ public class StudentServiceImpl implements StudentService {
         this.util = util;
     }
 
-    public String getStudent(){
-        return "getStudent";
-    }
-
-
-
     public Optional<StudentDto> getStudentByStudentId(String studentId) {
         Optional<StudentEntity> studentIdEntity = studentRepository.findByStudentId(studentId);
         return studentIdEntity.map(studentEntity -> {

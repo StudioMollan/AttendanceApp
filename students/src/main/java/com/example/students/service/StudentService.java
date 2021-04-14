@@ -10,8 +10,6 @@ import java.util.List;
 
 public interface StudentService {
 
-    String getStudent();
-
     Optional<StudentDto> getStudentByStudentId(String studentId);
 
     StudentDto createStudent(StudentDto studentDetails);

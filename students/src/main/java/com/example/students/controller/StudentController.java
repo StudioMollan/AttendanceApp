@@ -29,7 +29,6 @@ public class StudentController {
     //CRUD
 
     @GetMapping("/{studentId}") // READ
-    @ResponseStatus(value = HttpStatus.OK)
     public StudentResponseModel getStudent(@PathVariable String studentId) {
         StudentResponseModel responseModel = new StudentResponseModel();
         Optional<StudentDto> optionalstudentDto = studentService.getStudentByStudentId(studentId);
@@ -40,11 +39,6 @@ public class StudentController {
         }
         throw new NotFoundException("No user with id " + studentId);
     }
-
-    @GetMapping // READ
-    public String getStudent(){ return studentService.getStudent(); }
-
-
 
     @GetMapping // READ ALL
     public List<StudentResponseModel> getStudents() {
