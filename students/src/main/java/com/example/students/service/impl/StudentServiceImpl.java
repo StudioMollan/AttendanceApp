@@ -7,10 +7,9 @@ import com.example.students.service.StudentService;
 import com.example.students.shared.Util;
 import com.example.students.shared.dto.StudentDto;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -78,11 +77,31 @@ public class StudentServiceImpl implements StudentService {
                 studentDetails.getAge() < 1;
     }
 
-    public String updateStudent(){
-        return "updateStudent";
+    public Optional<StudentDto> updateStudent(String studentId, StudentDto studentDto){
+
+        Optional<StudentEntity> studentIdEntity = studentRepository.findByStudentId(studentId);
+        if (studentIdEntity.isEmpty())
+            return Optional.empty();
+        return studentIdEntity.map(studentEntity -> {
+            StudentDto response = new StudentDto();
+
+            studentEntity.setFirstName(studentDto.getFirstName() != null ? studentDto.getFirstName() : studentEntity.getFirstName());
+            studentEntity.setLastName(studentDto.getLastName() != null ? studentDto.getLastName() : studentEntity.getLastName());
+            studentEntity.setAge(studentDto.getAge() >0 ? studentDto.getAge() : studentEntity.getAge());
+            studentEntity.setPresent(studentDto.isPresent());
+
+            StudentEntity updatedStudentEntity = studentRepository.save(studentEntity);
+            BeanUtils.copyProperties(updatedStudentEntity, response);
+
+            return response;
+        });
+
     }
 
-    public String deleteStudent(){
-        return "deleteStudent";
+    @Transactional
+    public boolean deleteStudent(String studentId){
+        long removedStudentsCount = studentRepository.deleteByStudentId(studentId);
+
+        return removedStudentsCount > 0;
     }
 }
