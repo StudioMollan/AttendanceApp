@@ -5,6 +5,7 @@ import com.example.students.model.request.StudentDetailsRequestModel;
 import com.example.students.model.response.StudentResponseModel;
 import com.example.students.service.StudentService;
 import com.example.students.shared.dto.StudentDto;
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -67,14 +68,33 @@ public class StudentController {
         return response;
     }
 
-    @PutMapping // UPDATE
-    public String updateStudent(){
-        return studentService.updateStudent();
+    @PutMapping("/{studentId}") // UPDATE
+    public StudentResponseModel updateStudent(@PathVariable String studentId, @RequestBody StudentDetailsRequestModel requestData){
+
+        StudentDto studentDtoIn = new StudentDto();
+        BeanUtils.copyProperties(requestData, studentDtoIn);
+
+        Optional<StudentDto> studentDtoOut = studentService.updateStudent(studentId, studentDtoIn);
+        if (studentDtoOut.isEmpty()){
+            throw new RuntimeException("Not found");
+        }
+
+            StudentDto studentDto = studentDtoOut.get();
+            StudentResponseModel responseModel = new StudentResponseModel();
+            BeanUtils.copyProperties(studentDto, responseModel);
+            return responseModel;
+
     }
 
-    @DeleteMapping // DELETE
-    public String deleteStudent(){
-        return studentService.deleteStudent();
+    @DeleteMapping("/{studentId}") // DELETE
+    public String deleteStudent(@PathVariable String studentId) {
+
+        StudentResponseModel responseModel = new StudentResponseModel();
+        boolean deleted = studentService.deleteStudent(studentId);
+        if (deleted) {
+           return "";
+        }
+        throw new NotFoundException("No user with id " + studentId);
     }
 
 }

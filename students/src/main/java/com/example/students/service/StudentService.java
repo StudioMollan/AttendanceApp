@@ -14,9 +14,9 @@ public interface StudentService {
 
     StudentDto createStudent(StudentDto studentDetails);
 
-    String updateStudent();
+    Optional<StudentDto> updateStudent(String id, StudentDto studentDto);
 
-    String deleteStudent();
+    boolean deleteStudent(String studentId);
 
     List<StudentDto> getStudents();
 }
