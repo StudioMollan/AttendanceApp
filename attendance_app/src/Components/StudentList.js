@@ -26,7 +26,9 @@ const Student = (props) => {
                                 name="present"
                                 className="student-checkbox"
                                 defaultChecked={student.present}
-                                onClick={props.presentHandler}
+                                onClick={() => {
+                                    props.presentHandler(student)
+                                }}
                             />
                             &emsp;Present
                         </label>
@@ -48,10 +50,9 @@ const StudentList = () => {
     const [view, setView] = useState("");
     const [studentDetails, setStudentDetails] = useState({});
 
-    /* // Använd till  presentHandler uppdatera på indexet
-    const studentDetailsIndex = students.findIndex(function (el) {
+    const studentIndex = students.findIndex(function (el) {
         return el === studentDetails;
-    });*/
+    });
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -68,9 +69,32 @@ const StudentList = () => {
         setView("studentview");
     };
 
-    const presentHandler = () => {
-        // Change True / False
-        console.log("Present change");
+    const presentHandler = (student) => {
+
+        const fetchStudents = async () => {
+            student.present = !student.present;
+            const resp = await fetch(
+                `http://localhost:8080/students/${student.student_id}`,
+                {
+                    method: "PUT",
+                    mode: "cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        present: student.present,
+                    }),
+                }
+            );
+
+            if (resp.ok) {
+                const copy = [...students ];
+                copy[studentIndex] = student;
+                setStudents(copy);
+            } else {
+                alert("Something went wrong");
+            }
+        };
+
+        fetchStudents();
     };
 
     const removeHandler = () => {
