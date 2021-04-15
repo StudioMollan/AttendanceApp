@@ -11,7 +11,9 @@ const Student = (props) => {
                     <li key={index} className="student-li">
                         <button
                             type="button"
-                            onClick={props.linkHandler}
+                            onClick={() => {
+                                props.linkHandler(student);
+                            }}
                             className="link-button student-name"
                             style={{ fontWeight: "bold" }}
                         >
@@ -23,7 +25,7 @@ const Student = (props) => {
                                 id="present"
                                 name="present"
                                 className="student-checkbox"
-                                value={student.present}
+                                defaultChecked={student.present}
                                 onClick={props.presentHandler}
                             />
                             &emsp;Present
@@ -44,6 +46,12 @@ const Student = (props) => {
 const StudentList = () => {
     const [students, setStudents] = useState([]);
     const [view, setView] = useState("");
+    const [studentDetails, setStudentDetails] = useState({});
+
+    /* // Använd till  presentHandler uppdatera på indexet
+    const studentDetailsIndex = students.findIndex(function (el) {
+        return el === studentDetails;
+    });*/
 
     useEffect(() => {
         const fetchStudents = async () => {
@@ -55,7 +63,8 @@ const StudentList = () => {
         fetchStudents();
     }, []);
 
-    const linkHandler = () => {
+    const linkHandler = (studentDetails) => {
+        setStudentDetails(studentDetails);
         setView("studentview");
     };
 
@@ -73,7 +82,10 @@ const StudentList = () => {
         case "studentview":
             return (
                 <>
-                    <StudentView setView={setView} />
+                    <StudentView
+                        studentDetails={studentDetails}
+                        setView={setView}
+                    />
                 </>
             );
         default:

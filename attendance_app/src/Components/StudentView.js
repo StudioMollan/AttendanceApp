@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 
 const StudentView = (props) => {
+    const student = props.studentDetails;
+
     const [values, setValues] = useState({
-        firstName: "",
-        lastName: "",
-        age: 0,
-        present: false,
+        firstName: student.first_name,
+        lastName: student.last_name,
+        age: student.age,
+        present: student.present,
     });
 
     const handleChange = (title, event) => {
@@ -20,30 +22,29 @@ const StudentView = (props) => {
         });
     };
 
-    // TODO change to update not post
     const submitHandler = (event) => {
         event.preventDefault();
-
         const fetchStudents = async () => {
-            const resp = await fetch("http://localhost:8080/students/", {
-                method: "POST",
-                mode: "cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    first_name: values.firstName,
-                    last_name: values.lastName,
-                    age: values.age,
-                    present: values.present,
-                }),
-            });
+            const resp = await fetch(
+                `http://localhost:8080/students/${student.student_id}`,
+                {
+                    method: "PUT",
+                    mode: "cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        first_name: values.firstName,
+                        last_name: values.lastName,
+                        age: values.age,
+                        present: values.present,
+                    }),
+                }
+            );
 
-            if (resp.status !== 201) {
-                alert("Invalid information, enter all student details!");
+            if (resp.ok) {
+                window.location.reload();
+            } else {
+                alert("Invalid information, enter correct student details!");
             }
-
-            const newStudent = await resp.json();
-            props.setStudents((prevStudents) => [...prevStudents, newStudent]);
-            setValues([]); // Reset form for new input
         };
 
         fetchStudents();
@@ -53,7 +54,7 @@ const StudentView = (props) => {
         <div className="student-form-container view">
             <div className="form-style-div">
                 <h2 className="student-form-title">Edit Student</h2>
-                <form onSubmit={submitHandler}>
+                <form>
                     <label htmlFor="firstName">
                         <span>First Name</span>
                         <input
@@ -90,7 +91,6 @@ const StudentView = (props) => {
                             className="input-field"
                             name="age"
                             value={values.age || ""}
-                            placeholder="Enter your age"
                             onChange={(e) => handleChange("age", e)}
                         />
                     </label>
@@ -100,7 +100,7 @@ const StudentView = (props) => {
                             id="present"
                             name="present"
                             className="input-field-checkbox"
-                            value={values.present}
+                            defaultChecked={values.present}
                             onChange={(e) => handleChange("present", e)}
                         />
                         &emsp;Present
@@ -110,6 +110,7 @@ const StudentView = (props) => {
                             type="submit"
                             value="Edit"
                             className="edit-input"
+                            onClick={submitHandler}
                         />
                         <button
                             onClick={props.removeHandler}
