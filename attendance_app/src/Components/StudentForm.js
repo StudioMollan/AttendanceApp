@@ -38,11 +38,14 @@ const StudentForm = (props) => {
 
             if (resp.status !== 201) {
                 alert("Invalid information, enter all student details!");
+            } else {
+                const newStudent = await resp.json();
+                props.setStudents((prevStudents) => [
+                    ...prevStudents,
+                    newStudent,
+                ]);
+                setValues([]); // Reset form for new input
             }
-
-            const newStudent = await resp.json();
-            props.setStudents((prevStudents) => [...prevStudents, newStudent]);
-            setValues([]); // Reset form for new input
         };
 
         fetchStudents();
@@ -90,7 +93,6 @@ const StudentForm = (props) => {
                                 className="input-field"
                                 name="age"
                                 value={values.age || ""}
-                                placeholder="Enter your age"
                                 onChange={(e) => handleChange("age", e)}
                             />
                         </label>
