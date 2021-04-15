@@ -31,3 +31,13 @@ skapa en ny användare. När användaren har fyllt i användaren och klickat på
 funktioner; uppdatera närvaro (checkbox), ta student (delete knapp) och skapa 
 student (formulär) ska göra anrop till REST API:et för att persistera 
 förändringarna i databas tabellen. 
+
+## Databas
+
+CREATE DATABASE attendance_app;
+CREATE USER 'attendance_app_user'@'localhost' IDENTIFIED BY 'attendance_app_password';
+GRANT ALL PRIVILEGES ON attendance_app.* TO 'attendance_app_user'@'localhost';
+FLUSH PRIVILEGES;
+
+## Grupp 2
+Susanne J.H, Sofie J, Ermin K, Emil I, Michael E
