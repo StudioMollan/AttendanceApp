@@ -101,7 +101,6 @@ const StudentList = () => {
 
     const removeHandler = (student) => {
         const fetchStudents = async () => {
-            console.log(student);
         const resp = await fetch(
             `http://localhost:8080/students/${student.student_id}`, {
                 method: "DELETE",

@@ -60,7 +60,7 @@ public class StudentServiceImpl implements StudentService {
         StudentEntity studentEntity = new StudentEntity();
         BeanUtils.copyProperties(studentDetailsIn, studentEntity);
 
-        // id will always be unique so generated studentId will be unique
+        // Primary key/id in database will always be unique so generated studentId will be unique
         String studentId = util.generateHash(String.valueOf(studentDetailsIn.getId()));
         studentEntity.setStudentId(studentId.substring(3));
 

@@ -54,7 +54,7 @@ const StudentView = (props) => {
         <div className="student-form-container view">
             <div className="form-style-div">
                 <h2 className="student-form-title">Edit Student</h2>
-                <form>
+                <form onSubmit={submitHandler}>
                     <label htmlFor="firstName">
                         <span>First Name</span>
                         <input
@@ -110,7 +110,6 @@ const StudentView = (props) => {
                             type="submit"
                             value="Edit"
                             className="edit-input"
-                            onClick={submitHandler}
                         />
                         <button
                             onClick={() => {
