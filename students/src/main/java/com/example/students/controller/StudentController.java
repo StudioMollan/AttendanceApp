@@ -5,11 +5,9 @@ import com.example.students.model.request.StudentDetailsRequestModel;
 import com.example.students.model.response.StudentResponseModel;
 import com.example.students.service.StudentService;
 import com.example.students.shared.dto.StudentDto;
-import org.hibernate.annotations.Parameter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,19 +18,17 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("students") // localhost:8080/students
+@RequestMapping("students")
 @CrossOrigin(origins = "http://localhost:3000")
 public class StudentController {
 
     @Autowired
     StudentService studentService;
 
-    //CRUD
-
-    @GetMapping("/{studentId}") // READ
+    @GetMapping("/{studentId}")
     public StudentResponseModel getStudent(@PathVariable String studentId) {
         StudentResponseModel responseModel = new StudentResponseModel();
-        Optional<StudentDto> optionalstudentDto = studentService.getStudentByStudentId(studentId);
+        Optional<StudentDto> optionalstudentDto = studentService.getStudent(studentId);
         if (optionalstudentDto.isPresent()) {
             StudentDto studentDto = optionalstudentDto.get();
             BeanUtils.copyProperties(studentDto, responseModel);
@@ -41,9 +37,9 @@ public class StudentController {
         throw new NotFoundException("No user with id " + studentId);
     }
 
-    @GetMapping // READ ALL
-    public List<StudentResponseModel> getStudents() {
-        List<StudentDto> studentDtos = studentService.getStudents();
+    @GetMapping
+    public List<StudentResponseModel> getAllStudents() {
+        List<StudentDto> studentDtos = studentService.getAllStudents();
         ArrayList<StudentResponseModel> responseList = new ArrayList<>();
         for (StudentDto studentDto : studentDtos) {
             StudentResponseModel responseModel = new StudentResponseModel();
@@ -51,10 +47,9 @@ public class StudentController {
             responseList.add(responseModel);
         }
         return responseList;
-
     }
 
-    @PostMapping // CREATE
+    @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public StudentResponseModel createStudent(@RequestBody StudentDetailsRequestModel studentDetailsModel){
 
@@ -68,7 +63,7 @@ public class StudentController {
         return response;
     }
 
-    @PutMapping("/{studentId}") // UPDATE
+    @PutMapping("/{studentId}")
     public StudentResponseModel updateStudent(@PathVariable String studentId, @RequestBody StudentDetailsRequestModel requestData){
 
         StudentDto studentDtoIn = new StudentDto();
@@ -78,15 +73,13 @@ public class StudentController {
         if (studentDtoOut.isEmpty()){
             throw new RuntimeException("Not found");
         }
-
             StudentDto studentDto = studentDtoOut.get();
             StudentResponseModel responseModel = new StudentResponseModel();
             BeanUtils.copyProperties(studentDto, responseModel);
             return responseModel;
-
     }
 
-    @DeleteMapping("/{studentId}") // DELETE
+    @DeleteMapping("/{studentId}")
     public String deleteStudent(@PathVariable String studentId) {
 
         StudentResponseModel responseModel = new StudentResponseModel();
