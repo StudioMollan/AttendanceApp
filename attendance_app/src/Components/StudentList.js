@@ -31,7 +31,9 @@ const Student = (props) => {
                             &emsp;Present
                         </label>
                         <button
-                            onClick={props.removeHandler}
+                            onClick={() => {
+                                props.removeHandler(student)
+                            }}
                             className="removeBtn"
                         >
                             X
@@ -73,9 +75,22 @@ const StudentList = () => {
         console.log("Present change");
     };
 
-    const removeHandler = () => {
-        // Delete student
-        console.log("Delete");
+    const removeHandler = (student) => {
+        const fetchStudents = async () => {
+            console.log(student);
+        const resp = await fetch(
+            `http://localhost:8080/students/${student.student_id}`, {
+                method: "DELETE",
+                mode: "cors",
+                headers: { "Content-Type": "application/json" }, 
+            })
+            if (resp.ok) {
+                setStudents(prevStudents => {
+                    return prevStudents.filter(prevStudent => prevStudent.student_id !== student.student_id)
+                })
+            }
+        }
+        fetchStudents();
     };
 
     switch (view) {
@@ -85,6 +100,7 @@ const StudentList = () => {
                     <StudentView
                         studentDetails={studentDetails}
                         setView={setView}
+                        removeHandler={removeHandler}
                     />
                 </>
             );

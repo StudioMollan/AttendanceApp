@@ -113,7 +113,10 @@ const StudentView = (props) => {
                             onClick={submitHandler}
                         />
                         <button
-                            onClick={props.removeHandler}
+                            onClick={() => {
+                                props.setView("");
+                                props.removeHandler(student)
+                            }}
                             className="removeBtn deleteBtn"
                         >
                             Delete

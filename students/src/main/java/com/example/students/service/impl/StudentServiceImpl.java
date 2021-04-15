@@ -24,7 +24,7 @@ public class StudentServiceImpl implements StudentService {
         this.util = util;
     }
 
-    public Optional<StudentDto> getStudentByStudentId(String studentId) {
+    public Optional<StudentDto> getStudent(String studentId) {
         Optional<StudentEntity> studentIdEntity = studentRepository.findByStudentId(studentId);
         return studentIdEntity.map(studentEntity -> {
             StudentDto studentDto = new StudentDto();
@@ -34,7 +34,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentDto> getStudents() {
+    public List<StudentDto> getAllStudents() {
         Iterable<StudentEntity> studentEntities = studentRepository.findAll();
         ArrayList<StudentDto> studentDtos = new ArrayList<>();
         for (StudentEntity studentEntity : studentEntities) {
@@ -43,7 +43,6 @@ public class StudentServiceImpl implements StudentService {
             studentDtos.add(studentDto);
         }
         return studentDtos;
-
     }
 
     public StudentDto createStudent(StudentDto studentDetailsIn){
@@ -95,7 +94,6 @@ public class StudentServiceImpl implements StudentService {
 
             return response;
         });
-
     }
 
     @Transactional

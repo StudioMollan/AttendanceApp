@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface StudentService {
 
-    Optional<StudentDto> getStudentByStudentId(String studentId);
+    Optional<StudentDto> getStudent(String studentId);
 
     StudentDto createStudent(StudentDto studentDetails);
 
@@ -18,5 +18,5 @@ public interface StudentService {
 
     boolean deleteStudent(String studentId);
 
-    List<StudentDto> getStudents();
+    List<StudentDto> getAllStudents();
 }
